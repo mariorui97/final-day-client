@@ -12,6 +12,9 @@ import SignUp from "./components/SignUp";
 import {API_URL} from './config'
 import {UserContext} from './context/app.context'
 import MyMap from "./components/MyMap";
+import MyCalendar from "./components/MyCalendar";
+import Chatbot from "./components/Chatbot";
+import StripeApp from './components/StripeApp'
 
 function App(){
 
@@ -152,8 +155,11 @@ function App(){
   console.log('manishhhhh')
 	return (
 		<div>
-      <MyMap />
-      <MyNav onLogout={handleLogout} />
+      <StripeApp />
+      {/* <Chatbot /> */}
+      {/* <MyCalendar /> */}
+      {/* <MyMap /> */}
+      {/* <MyNav onLogout={handleLogout} />
 			<h1>Shopping List</h1>
       <Routes>
           <Route path="/" element={<TodoList todos={todos} /> } />
@@ -162,7 +168,7 @@ function App(){
           <Route path="/todo/:todoId/edit" element={<EditForm btnEdit={handleEdit}/>} />
           <Route  path="/signin" element={<SignIn myError={myError} onSignIn={handleSignIn} />}/>
           <Route  path="/signup" element={<SignUp />}/>
-      </Routes>
+      </Routes> */}
 		</div>
 	);
 }
