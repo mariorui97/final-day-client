@@ -20,7 +20,7 @@ function SignIn(props) {
       }
 
   */
-
+  console.log(props)
   const {onSignIn} = props
 
   return (

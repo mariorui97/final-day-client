@@ -11,22 +11,16 @@ import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
 import {API_URL} from './config'
 import {UserContext} from './context/app.context'
-import MyMap from "./components/MyMap";
-import MyCalendar from "./components/MyCalendar";
 import Chatbot from "./components/Chatbot";
-import StripeApp from './components/StripeApp'
 
 function App(){
 
   const [todos, setTodos] = useState([])
   // this state stores the logged in user info
 
-  console.log(useContext(UserContext))
-
-  // we use the 'useContext' hook here 
-  // we tell react to consume all the values provided by the context UserContext
   const {user, setUser} = useContext(UserContext)
   const [myError, setError] = useState(null)
+  
   // setting it to 'true' so that we can show a loading screen and make the user wait until this API finishes
   const [fetchingUser, setFetchingUser] = useState(true)
   
@@ -51,10 +45,7 @@ function App(){
             // the request will fail if the user is not logged in 
             setFetchingUser(false)
           }
-          // -----------------------------------------------
-
       }
-
       getData()
 
   }, [])
@@ -66,25 +57,19 @@ function App(){
 
   const handleSubmit = async (event) => {
       event.preventDefault()
-      //first upload the image to cloudinary
-      console.log(event.target.myImage.files[0])
-
-      // Create the form data with the key 'imageUrl' because our server expects the formdata with they key 'imageUrl'
-      let imageForm = new FormData()
-      imageForm.append('imageUrl', event.target.myImage.files[0])
-
-      let imgResponse = await axios.post(`${API_URL}/upload`, imageForm)
-      console.log(imgResponse.data)
 
       let newTodo = {
-        name: event.target.name.value,
-        description: event.target.description.value,
-        completed: false,
-        image: imgResponse.data.image
+        summonerName: event.target.summonerName.value,
+        favChamps: event.target.favChamps.value,
+        position: event.target.position.value,
+        note: event.target.note.value
       }
+      
       // Pass an object as a 2nd param in POST requests
       let response = await axios.post(`${API_URL}/create`, newTodo, {withCredentials: true})
       setTodos([response.data, ...todos])
+      console.log(newTodo)
+      
   }
 
   const handleEdit = async (event, id) => {
@@ -92,14 +77,14 @@ function App(){
       let editedTodo = {
         name: event.target.name.value,
         description: event.target.description.value,
-        completed: false,
+        completed: false
       }
       // Pass an object as a 2nd param in POST requests
       let response = await axios.patch(`${API_URL}/todos/${id}`, editedTodo, {withCredentials: true})
       // Update our state 'todos' with the edited todo so that the user see the upadted info without refrshing the page
 
       // We have the updated todo here
-      console.log(response.data)
+     
 
       let updatedTodos = todos.map((elem) => {
           if (elem._id == id) {
@@ -135,6 +120,7 @@ function App(){
   
       let response = await axios.post(`${API_URL}/signin`, newUser, {withCredentials: true})
       setUser(response.data)
+      navigate('/')
     }
     catch(err){
       //console.log(err.response)
@@ -152,23 +138,19 @@ function App(){
     return <p>Loading user info. . . </p>
   }
 
-  console.log('manishhhhh')
+
 	return (
 		<div>
-      <StripeApp />
-      {/* <Chatbot /> */}
-      {/* <MyCalendar /> */}
-      {/* <MyMap /> */}
-      {/* <MyNav onLogout={handleLogout} />
-			<h1>Shopping List</h1>
+      <Chatbot /> 
+      <MyNav/>
       <Routes>
           <Route path="/" element={<TodoList todos={todos} /> } />
           <Route path="/add-form" element={<AddForm btnSubmit={handleSubmit}/> } />
-          <Route path="/todo/:todoId" element={<TodoDetail user={user} btnDelete={handleDelete} />} />
+          <Route path="/todo/:todoId" element={<TodoDetail user={user} btnSubmit={handleSubmit} btnEdit={handleEdit} btnDelete={handleDelete} />} />
           <Route path="/todo/:todoId/edit" element={<EditForm btnEdit={handleEdit}/>} />
           <Route  path="/signin" element={<SignIn myError={myError} onSignIn={handleSignIn} />}/>
           <Route  path="/signup" element={<SignUp />}/>
-      </Routes> */}
+      </Routes>
 		</div>
 	);
 }

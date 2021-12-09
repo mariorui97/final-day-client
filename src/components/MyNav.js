@@ -12,11 +12,11 @@ return (
 		<Navbar.Toggle  aria-controls="basic-navbar-nav"  />
 		<Navbar.Collapse  id="basic-navbar-nav">
 			<Nav  className="mr-auto">
-				<Link  to="/">Todos</Link>
-				<Link  style={{marginLeft: '10px'}}  to="/add-form">Add Todo</Link>
+				<Link  to="/">Duos</Link>
+				<Link  style={{marginLeft: '10px'}}  to="/add-form">List Me</Link>
 				{
 					user ? (
-						<button onClick={props.onLogout}>Logout</button>
+						<button style={{width: '5px'}} onClick={props.onLogout}>Logout</button>
 					) : (
 						<>
 						<Link  style={{marginLeft: '10px'}}  to="/signin">SignIn</Link>
