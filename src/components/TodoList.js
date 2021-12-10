@@ -66,7 +66,7 @@ function TodoList(props) {
                         <TableCell>{summonerRank}</TableCell>
                         <TableCell>not deffined yet</TableCell>
                         <TableCell>
-                        <Navigate to={`https://euw.op.gg/summoner/userName=${elem.summonerName}`}>Link</Navigate>
+                        <a href={`https://euw.op.gg/summoner/userName=${elem.summonerName}`} rel="noreferrer" target="_blank">op.gg link</a>
                         </TableCell>
                         <TableCell>{elem.note}</TableCell>
                     </TableRow>

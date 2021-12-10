@@ -14,6 +14,7 @@ import {UserContext} from './context/app.context'
 import Chatbot from "./components/Chatbot";
 import ChatPage from "./components/ChatPage";
 import UserList from "./components/UserList";
+import Lore from "./components/Lore";
 
 function App(){
 
@@ -175,6 +176,7 @@ function App(){
           <Route  path="/signin" element={<SignIn myError={myError} onSignIn={handleSignIn} />}/>
           <Route  path="/signup" element={<SignUp onSubmit={handleSignUp} />}/>
           <Route path="/chat/:chatId"  element={ <ChatPage user={user} />}/>
+          <Route path="lore"  element={<Lore/>}/>
       </Routes>
 		</div>
 	);
