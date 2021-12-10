@@ -18,18 +18,7 @@ function SignUp(props) {
 
   const navigate = useNavigate()
 
-  const handleSignUp = async (event) => {
-    event.preventDefault()
-    let newUser = {
-      username: event.target.username.value,
-      email: event.target.email.value,
-      password: event.target.password.value
-    }
-    //Don't forget to import axios
-    await axios.post(`${API_URL}/signup`, newUser, {withCredentials: true})  
-    navigate('/signin')
-  } 
-
+  const { onSubmit } = props
 
   return (
     <ThemeProvider theme={theme}>
@@ -46,7 +35,7 @@ function SignUp(props) {
           <Typography component="h1" variant="h5">
             Sign Up
           </Typography>
-          <Box component="form" onSubmit={handleSignUp} noValidate sx={{ mt: 1 }}>
+          <Box component="form" onSubmit={onSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
                 margin="normal"
                 required

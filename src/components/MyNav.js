@@ -13,10 +13,14 @@ return (
 		<Navbar.Collapse  id="basic-navbar-nav">
 			<Nav  className="mr-auto">
 				<Link  to="/">Duos</Link>
-				<Link  style={{marginLeft: '10px'}}  to="/add-form">List Me</Link>
+				<Link  style={{marginLeft: '10px'}}  to="/lore">League of Legends</Link>
 				{
 					user ? (
+						<>
+						<Link  style={{marginLeft: '10px'}}  to="/add-form">List Me</Link>
+						<Link  style={{marginLeft: '10px'}}  to="/users">User List</Link>
 						<button style={{width: '5px'}} onClick={props.onLogout}>Logout</button>
+						</>
 					) : (
 						<>
 						<Link  style={{marginLeft: '10px'}}  to="/signin">SignIn</Link>

@@ -53,7 +53,7 @@ function TodoDetail(props) {
             <TextField id="outlined-basic" label="Summoner Name" variant="outlined" size="small" sx={{width: "48%"}} name="summonerName" />
             <Stack spacing={3} > 
                 <Autocomplete multiple id="tags-outlined" options={champions} defaultValue={[champions[0]]} filterSelectedOptions renderInput={(params) => (
-                        <TextField {...params} label="Favorite Champions" placeholder="Choose 3 champions max." size="small"/>
+                        <TextField {...params} label="Favorite Champions"  placeholder="Choose 3 champions max." size="small"/>
                 )}/>
             </Stack>
             <FormControl component="fieldset">

@@ -12,12 +12,14 @@ import SignUp from "./components/SignUp";
 import {API_URL} from './config'
 import {UserContext} from './context/app.context'
 import Chatbot from "./components/Chatbot";
+import ChatPage from "./components/ChatPage";
+import UserList from "./components/UserList";
 
 function App(){
 
   const [todos, setTodos] = useState([])
   // this state stores the logged in user info
-
+  const [users, setUsers] = useState([])
   const {user, setUser} = useContext(UserContext)
   const [myError, setError] = useState(null)
   
@@ -30,9 +32,13 @@ function App(){
   // This runs only --ONCE-- when the component is mounted
   useEffect(() => {
 
-      const getData = async () => {
+      const getData = async () => {          
+
+
+
           let response  = await axios.get(`${API_URL}/todos`,{withCredentials: true})
           setTodos(response.data)
+
 
           // -----------------------------------------------
           // we make the user requst here to know if the user is logged in or not
@@ -40,6 +46,9 @@ function App(){
             let userResponse = await axios.get(`${API_URL}/user`,{withCredentials: true})
             setFetchingUser(false)
             setUser(userResponse.data)
+
+            let responsee = await axios.get(`${API_URL}/users`, {withCredentials: true})
+            setUsers(responsee.data)
           }
           catch(err){
             // the request will fail if the user is not logged in 
@@ -110,6 +119,19 @@ function App(){
     setTodos(filteredTodos)
   }
 
+  const handleSignUp = async (event) => {
+    event.preventDefault()
+    let newUser = {
+      username: event.target.username.value,
+      email: event.target.email.value,
+      password: event.target.password.value
+    }
+    //Don't forget to import axios
+    await axios.post(`${API_URL}/signup`, newUser, {withCredentials: true}) 
+     
+    navigate('/signin')
+  } 
+
   const handleSignIn = async (event) => {
     event.preventDefault()
     try {
@@ -120,7 +142,8 @@ function App(){
   
       let response = await axios.post(`${API_URL}/signin`, newUser, {withCredentials: true})
       setUser(response.data)
-      navigate('/')
+      setUsers([response.data, ...users])
+      navigate('/add-form')
     }
     catch(err){
       //console.log(err.response)
@@ -142,14 +165,16 @@ function App(){
 	return (
 		<div>
       <Chatbot /> 
-      <MyNav/>
+      <MyNav onLogout={handleLogout}/>
       <Routes>
           <Route path="/" element={<TodoList todos={todos} /> } />
+          <Route path='/users' element={<UserList users={users} user={user} />}/>
           <Route path="/add-form" element={<AddForm btnSubmit={handleSubmit}/> } />
           <Route path="/todo/:todoId" element={<TodoDetail user={user} btnSubmit={handleSubmit} btnEdit={handleEdit} btnDelete={handleDelete} />} />
           <Route path="/todo/:todoId/edit" element={<EditForm btnEdit={handleEdit}/>} />
           <Route  path="/signin" element={<SignIn myError={myError} onSignIn={handleSignIn} />}/>
-          <Route  path="/signup" element={<SignUp />}/>
+          <Route  path="/signup" element={<SignUp onSubmit={handleSignUp} />}/>
+          <Route path="/chat/:chatId"  element={ <ChatPage user={user} />}/>
       </Routes>
 		</div>
 	);
