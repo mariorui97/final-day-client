@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {useState, useEffect} from 'react'
 import {Spinner} from 'react-bootstrap'
-import {Link, Navigate} from 'react-router-dom'
+import {Link, Navigate, Routes, Route} from 'react-router-dom'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -15,15 +15,15 @@ function TodoList(props) {
     const {todos} = props
 
     const [summonerRank, setSummonerRank] = useState([])
-    const riotApi = process.env.RIOT_API
+    const RIOT_API_KEY = process.env.RIOT_API
     
      useEffect(() => {
         const getData = async () => {
             try{
             for(let i=0; i<todos.length; i++){
-                let response = await axios.get(`https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${todos[i].summonerName}?api_key=RGAPI-e6fc9a61-0d33-4e9a-bcc7-f90d61dce166`)
+                let response = await axios.get(`https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${todos[i].summonerName}?api_key=${RIOT_API_KEY}`)
 
-                let rankResponse = await axios.get(`https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/${response.data.id}?api_key=RGAPI-e6fc9a61-0d33-4e9a-bcc7-f90d61dce166`)
+                let rankResponse = await axios.get(`https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/${response.data.id}?api_key=${RIOT_API_KEY}`)
                 
                 rankResponse.data.length === 1 ? setSummonerRank(...summonerRank, rankResponse.data[0].tier + " " + rankResponse.data[0].rank) :
                 rankResponse.data.length === 2 ? setSummonerRank(...summonerRank, rankResponse.data[1].tier + " " + rankResponse.data[1].rank) :
@@ -65,7 +65,9 @@ function TodoList(props) {
                         <TableCell>{elem.position}</TableCell>
                         <TableCell>{summonerRank}</TableCell>
                         <TableCell>not deffined yet</TableCell>
-                        <TableCell>{/* <a href = 'https://euw.op.gg/summoner/userName=',{elem.summonerName}>Link</a> */}</TableCell>
+                        <TableCell>
+                        <Navigate to={`https://euw.op.gg/summoner/userName=${elem.summonerName}`}>Link</Navigate>
+                        </TableCell>
                         <TableCell>{elem.note}</TableCell>
                     </TableRow>
                 ))}
