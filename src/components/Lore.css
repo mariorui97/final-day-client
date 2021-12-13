@@ -25,7 +25,7 @@ align-content: space-around;
     width: 100vh;
 	color:#268d81;
 	margin-bottom: 2%;
-	
+	text-decoration: none;	
 }
 
 .header{
@@ -62,6 +62,8 @@ align-content: space-around;
 	margin-bottom: 5%;
 }
 
+
+
 .divider{
 	text-align: center;
     display: flex;
@@ -74,4 +76,8 @@ align-content: space-around;
 	height: 2px;
 	width: 100%;
 	background: radial-gradient(circle, rgba(42,157,143,1) 0%, rgba(73,80,87,1) 69%, rgba(73,80,87,1) 100%);
+}
+
+.description h5{
+	margin-bottom: 50px;
 }

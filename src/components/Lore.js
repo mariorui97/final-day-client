@@ -1,8 +1,8 @@
+/* eslint-disable jsx-a11y/anchor-has-content */
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import './Lore.css'
 import Button from '@mui/material/Button';
-import Divider from '@mui/material/Divider';
 
 function Lore() {
     return (        
@@ -10,15 +10,21 @@ function Lore() {
         <div className="div description">
             <img src="https://www.leagueoflegends.com/static/logo-1200-589b3ef693ce8a750fa4b4704f1e61f2.png" alt=""/>
             <h4>League of Legends is a team-based strategy game where two teams of five powerful champions face off to destroy the other's base. Choose from over 140 champions to make epic plays, secure kills, and take down towers as you battle your way to victory.</h4>
-            <Button variant="contained">Take a better look at official Riot's website</Button>
+            <a className="div description" href='https://www.leagueoflegends.com/en-us/'><Button variant="contained"> Take a better look at official Riot's website</Button></a>
         </div>
         <div className="div divider">
             <hr/>
         </div>                         
-        <div className="div header">      
-        <h3>Also they launched an animated series that you can watch here:</h3>
-        <br/>
-        <h3>List of Champions:</h3>
+        <div className="div description">
+            <img src="https://arcane-profile-kit.co.uk/wp-content/uploads/2021/11/arcane-logo-rendered-master-2.png" alt=""/>
+            <h5>Arcane is an animated television series set in the League of Legends universe. The series was unveiled during the League of Legends 10th Anniversary celebrations.</h5>      
+            <a className="div description" href='https://www.netflix.com/pt-en/title/81435684'><Button variant="contained"> Watch Arcane</Button></a>
+        </div>
+        <div className="div divider">
+            <hr/>
+        </div> 
+        <div className="div header"> 
+        <h4>List of Champions:</h4>       
         </div>
         <Box className="box" sx={{flexWrap: 'wrap', '& > :not(style)': {m: 1, width: 122, height: 122}}}>                      
             <a style={{backgroundImage: `url("/imgs/Aatrox.png")`}} href= {"https://www.leagueoflegends.com/en-us/champions/aatrox/"} rel="noreferrer" target="_blank"/>         
