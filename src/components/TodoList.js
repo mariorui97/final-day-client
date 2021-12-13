@@ -13,29 +13,36 @@ import Paper from '@mui/material/Paper';
 function TodoList(props) {
 
     const {todos} = props
-
+    
     const [summonerRank, setSummonerRank] = useState([])
     const RIOT_API_KEY = process.env.RIOT_API
     
      useEffect(() => {
         const getData = async () => {
             try{
-            for(let i=0; i<todos.length; i++){
-                let response = await axios.get(`https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${todos[i].summonerName}?api_key=${RIOT_API_KEY}`)
 
-                let rankResponse = await axios.get(`https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/${response.data.id}?api_key=${RIOT_API_KEY}`)
+                let summonerRanksArray = []
+
+            for(let i=0; i<todos.length; i++){
+                let response = await axios.get(`https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${todos[i].summonerName}?api_key=RGAPI-e6fc9a61-0d33-4e9a-bcc7-f90d61dce166`)
+
+                let rankResponse = await axios.get(`https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/${response.data.id}?api_key=RGAPI-e6fc9a61-0d33-4e9a-bcc7-f90d61dce166`)
                 
-                rankResponse.data.length === 1 ? setSummonerRank(...summonerRank, rankResponse.data[0].tier + " " + rankResponse.data[0].rank) :
-                rankResponse.data.length === 2 ? setSummonerRank(...summonerRank, rankResponse.data[1].tier + " " + rankResponse.data[1].rank) :
-                rankResponse.data.length === 3 ? setSummonerRank(...summonerRank, rankResponse.data[2].tier + " " + rankResponse.data[2].rank) : 
-                setSummonerRank(...summonerRank, 'Unranked')                           
+                rankResponse.data.length === 1 && summonerRanksArray.push(rankResponse.data[0].tier + " " + rankResponse.data[0].rank) 
+                rankResponse.data.length === 2 && summonerRanksArray.push(rankResponse.data[1].tier + " " + rankResponse.data[1].rank) 
+                rankResponse.data.length === 3 && summonerRanksArray.push(rankResponse.data[2].tier + " " + rankResponse.data[2].rank) 
+                // setSummonerRank(...summonerRank, 'Unranked')                           
             }
+                console.log("newArray", summonerRanksArray)
+                setSummonerRank(summonerRanksArray)
             }
             catch(err){
                 console.log(err)
             }           
         }
+        
         getData()
+        
       }, [])
 
 
@@ -43,9 +50,9 @@ function TodoList(props) {
         return <Spinner animation="grow" variant="dark" />
     }
 
-    return (             
+    return (                    
             <TableContainer  component={Paper}>
-            {console.log(summonerRank)}
+            {console.log("summoner array", summonerRank)}
             <Table sx={{ minWidth: 650 }}  size="small" aria-label="a dense table">
                 <TableHead>
                 <TableRow sx={{backgroundColor: 'gray'}}>
@@ -59,11 +66,11 @@ function TodoList(props) {
                 </TableHead>
                 <TableBody>
                 
-                {todos.map((elem) => (
+                {todos.map((elem, i) => (
                     <TableRow key={elem.summonerName} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                         <TableCell>{elem.summonerName}</TableCell>
                         <TableCell>{elem.position}</TableCell>
-                        <TableCell>{summonerRank}</TableCell>
+                        {summonerRank.length ? <TableCell>{summonerRank[i]}</TableCell> : <TableCell><Spinner animation="grow" size="small" variant="dark" /></TableCell>}
                         <TableCell>not deffined yet</TableCell>
                         <TableCell>
                         <a href={`https://euw.op.gg/summoner/userName=${elem.summonerName}`} rel="noreferrer" target="_blank">op.gg link</a>
