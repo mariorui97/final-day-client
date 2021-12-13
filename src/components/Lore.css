@@ -1,5 +1,5 @@
 .div{
-background-color: rgb(97, 97, 97);
+background-color: #495057;
 display: flex;
 flex-direction: row;
 flex-wrap: wrap;
@@ -9,12 +9,69 @@ align-content: space-around;
 }
 
 .box{
+	min-height: 100vh;
     display: flex;
 	flex-direction: row;
-	flex-wrap: wrap;
 	justify-content: center;
 	align-items: center;
 	align-content: center;
+    width: 100vh;   
+}
+
+.description{
+	text-align: center;
+    display: flex;
+	flex-direction: row;
     width: 100vh;
-    height: 100vh;    
+	color:#268d81;
+	margin-bottom: 2%;
+	
+}
+
+.header{
+    display: flex;
+	flex-direction: row;
+	justify-content: left;
+	color:#2a9d8f;
+    width: 100vh;  
+}
+
+.description img{
+	max-width: 30%;
+	margin: 2%;
+}
+
+.description button{
+	max-width: 40%;	
+	background-color: #2a9d8f;
+	color: #495057; 
+	text-transform: lowercase;
+	font-weight: bolder;
+
+}
+
+.description button:hover{
+	max-width: 40%;	
+	background-color: #495057;
+	color: #2a9d8f; 
+	text-transform: lowercase;
+	font-weight: bolder;
+}
+
+.description h4{
+	margin-bottom: 5%;
+}
+
+.divider{
+	text-align: center;
+    display: flex;
+	flex-direction: row;
+    width: 100vh;
+	margin-bottom: 3%;
+}
+
+.divider hr{	
+	height: 2px;
+	width: 100%;
+	background: radial-gradient(circle, rgba(42,157,143,1) 0%, rgba(73,80,87,1) 69%, rgba(73,80,87,1) 100%);
 }
