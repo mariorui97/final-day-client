@@ -56,34 +56,32 @@ function TodoList(props) {
 
     return (
         <>
-        <h2>No more jung or top diff</h2>
-        <h3>Climb to chally</h3> 
-
-                  
-            <TableContainer component={Paper} sx={{width: '98%', margin: 'auto'}}>
-            <Table sx={{ minWidth: 650 }}  size="small" aria-label="a dense table">
-                <TableHead>
-                <TableRow sx={{backgroundColor: 'gray'}}>
-                    <TableCell>Summoner Name</TableCell>
-                    <TableCell>Role</TableCell>
-                    <TableCell>Rank</TableCell>
-                    <TableCell>Fav Champs</TableCell>
-                    <TableCell>Match History</TableCell>
-                    <TableCell>Note</TableCell>     
+        <span><h2>no more jung or top <h2 style={{display: "inline", margin: 'auto', color: '#268d81' }}>diff</h2></h2></span>
+        <h3>climb to chally</h3>                  
+            <TableContainer component={Paper} sx={{width: '98%', margin: 'auto', backgroundColor:'#5b6268'}}>
+            <Table sx={{ minWidth: 650}}  size="small" aria-label="a dense table">
+                <TableHead >
+                <TableRow sx={{backgroundColor: '#33383d' }}>
+                    <TableCell style={{fontWeight: '600', borderBlockColor: '#5b6268', color: '#268d81' }}>Summoner Name</TableCell>
+                    <TableCell style={{fontWeight: '600', borderBlockColor: '#5b6268', color: '#268d81' }}>Role</TableCell>
+                    <TableCell style={{fontWeight: '600', borderBlockColor: '#5b6268', color: '#268d81' }}> Rank</TableCell>
+                    <TableCell style={{fontWeight: '600', borderBlockColor: '#5b6268', color: '#268d81' }}>Fav Champs</TableCell>
+                    <TableCell style={{fontWeight: '600', borderBlockColor: '#5b6268', color: '#268d81' }}>Match History</TableCell>
+                    <TableCell style={{fontWeight: '600', borderBlockColor: '#5b6268', color: '#268d81' }}>Note</TableCell>     
                 </TableRow>
                 </TableHead>
                 <TableBody>
                 
                 {todos.map((elem, i) => (
                     <TableRow key={elem.summonerName} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                        <TableCell>{elem.summonerName}</TableCell>
-                        <TableCell>{elem.position}</TableCell>
-                        {summonerRank.length ? <TableCell>{summonerRank[i]}</TableCell> : <TableCell><Spinner animation="grow" size="small" variant="dark" /></TableCell>}
-                        <TableCell>not deffined yet</TableCell>
-                        <TableCell>
-                        <a href={`https://euw.op.gg/summoner/userName=${elem.summonerName}`} rel="noreferrer" target="_blank">op.gg link</a>
+                        <TableCell style={{borderBlockColor: '#33383d'}}>{elem.summonerName}</TableCell>
+                        <TableCell style={{borderBlockColor: '#33383d'}}>{elem.position}</TableCell>
+                        {summonerRank.length ? <TableCell style={{borderBlockColor: '#33383d'}}>{summonerRank[i]}</TableCell> : <TableCell style={{borderBlockColor: '#33383d'}}><Spinner animation="grow" size="small" variant="dark" /></TableCell>}
+                        <TableCell style={{borderBlockColor: '#33383d'}}>not deffined yet</TableCell>
+                        <TableCell style={{borderBlockColor: '#33383d'}}>
+                        <a style={{fontWeight: '600', color:'#3c988e'}} href={`https://euw.op.gg/summoner/userName=${elem.summonerName}`} rel="noreferrer" target="_blank">op.gg link</a>
                         </TableCell>
-                        <TableCell>{elem.note}</TableCell>                        
+                        <TableCell style={{borderBlockColor: '#33383d'}}>{elem.note}</TableCell>                        
                     </TableRow>
                 ))}
                 </TableBody>

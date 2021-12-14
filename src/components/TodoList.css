@@ -1,0 +1,21 @@
+h2{    
+    margin-top: 5%;
+    margin-left: 40%;
+    
+}
+
+h3{
+    margin-left: 44%;
+    margin-bottom: 5%;
+}
+
+@media only screen and (max-width: 375px) {
+    h2{    
+        margin-left: 20%;
+        
+    }
+    h3{
+        margin-left: 35%;
+        margin-bottom: 5%;
+    }
+}

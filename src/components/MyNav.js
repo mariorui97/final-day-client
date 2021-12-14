@@ -36,7 +36,7 @@ return (
 		<Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
 			<Typography sx={{ minWidth: 100 }}><Link  to="/">Duos</Link></Typography>
 			<Typography sx={{ minWidth: 100 }}><Link  to="/lore">League of Legends</Link></Typography>
-			<Typography sx={{ minWidth: 100 }}><Link to="/users">User List</Link></Typography>
+      {user && <Typography sx={{ minWidth: 100 }}><Link to="/users">User List</Link></Typography>}			
 		</Box>
 		<Tooltip title="Account settings">
 			<IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
