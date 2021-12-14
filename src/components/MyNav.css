@@ -1,5 +1,12 @@
 .navBar{
     display: flex;
     justify-content: space-between;
-    color:#268d81;
+    color:#268d81; 
+    
+}
+
+a{
+    text-decoration: none;
+    color:#268d81; 
+    font-weight: bold;
 }

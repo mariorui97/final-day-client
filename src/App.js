@@ -165,8 +165,8 @@ function App(){
 
 	return (
 		<div>
-      <Chatbot /> 
-      <MyNav onLogout={handleLogout}/>
+      <Chatbot />      
+      <MyNav onLogout={handleLogout}/>  
       <Routes>
           <Route path="/" element={<TodoList todos={todos} /> } />
           <Route path='/users' element={<UserList users={users} user={user} />}/>

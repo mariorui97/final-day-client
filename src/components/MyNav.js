@@ -14,6 +14,7 @@ import Tooltip from '@mui/material/Tooltip';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
+import './MyNav.css'
 
 function MyNav(props) {
 
@@ -30,7 +31,7 @@ function MyNav(props) {
 	};
 
 return (
-	<>
+	<div>
 	<div className="navBar">	
 		<Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
 			<Typography sx={{ minWidth: 100 }}><Link  to="/">Duos</Link></Typography>
@@ -78,7 +79,7 @@ return (
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
 	  {
-		  user ? (	<>	  
+		  user ? (	<div>	  
 			<MenuItem>
 		<ListItemIcon>
             <Settings fontSize="small" />
@@ -92,20 +93,20 @@ return (
           </ListItemIcon>
           Logout
         </MenuItem>
-		</>) : (<>
+		</div>) : (<div>
 		<MenuItem>
 		<ListItemIcon>
             <PersonAdd fontSize="small" />
           </ListItemIcon>
 		  <Link  to="/signin">Log In</Link>
         </MenuItem>  
-	</>
+	</div>
 	  )
 		  
 	  }
 	  </Menu>
 
-	  </>
+	  </div>
 	)
 }
 export default MyNav

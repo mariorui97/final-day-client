@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {useState, useEffect} from 'react'
 import {Spinner} from 'react-bootstrap'
-import {Link, Navigate, Routes, Route} from 'react-router-dom'
+import {Link, Navigate, Routes, Route, useNavigate} from 'react-router-dom'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -10,8 +10,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {API_URL} from '../config'
-import {useNavigate} from 'react-router-dom'
-import './MyNav.css'
+import './TodoList.css'
 
 function TodoList(props) {
 
@@ -19,7 +18,7 @@ function TodoList(props) {
 
     
     const [summonerRank, setSummonerRank] = useState([])
-    const RIOT_API_KEY = process.env.RIOT_API   
+    const REACT_APP_RIOT_API_KEY = process.env.RIOT_API   
 
 
      useEffect(() => {
@@ -29,9 +28,9 @@ function TodoList(props) {
                 let summonerRanksArray = []
 
             for(let i=0; i<todos.length; i++){
-                let response = await axios.get(`https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${todos[i].summonerName}?api_key=RGAPI-e6fc9a61-0d33-4e9a-bcc7-f90d61dce166`)
+                let response = await axios.get(`https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${todos[i].summonerName}?api_key=${REACT_APP_RIOT_API_KEY}`)
 
-                let rankResponse = await axios.get(`https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/${response.data.id}?api_key=RGAPI-e6fc9a61-0d33-4e9a-bcc7-f90d61dce166`)
+                let rankResponse = await axios.get(`https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/${response.data.id}?api_key=${REACT_APP_RIOT_API_KEY}`)
                 
                 rankResponse.data.length === 1 && summonerRanksArray.push(rankResponse.data[0].tier + " " + rankResponse.data[0].rank) 
                 rankResponse.data.length === 2 && summonerRanksArray.push(rankResponse.data[1].tier + " " + rankResponse.data[1].rank) 
@@ -55,9 +54,13 @@ function TodoList(props) {
         return <Spinner animation="grow" variant="dark" />
     }
 
-    return (                    
-            <TableContainer  component={Paper}>
-            {console.log("summoner array", summonerRank)}
+    return (
+        <>
+        <h2>No more jung or top diff</h2>
+        <h3>Climb to chally</h3> 
+
+                  
+            <TableContainer component={Paper} sx={{width: '98%', margin: 'auto'}}>
             <Table sx={{ minWidth: 650 }}  size="small" aria-label="a dense table">
                 <TableHead>
                 <TableRow sx={{backgroundColor: 'gray'}}>
@@ -86,7 +89,7 @@ function TodoList(props) {
                 </TableBody>
             </Table>
             </TableContainer>
-
+            </>
   
                     )
 
