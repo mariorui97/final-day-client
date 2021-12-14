@@ -34,9 +34,10 @@ return (
 	<div>
 	<div className="navBar">	
 		<Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-			<Typography sx={{ minWidth: 100 }}><Link  to="/">Duos</Link></Typography>
-			<Typography sx={{ minWidth: 100 }}><Link  to="/lore">League of Legends</Link></Typography>
-      {user && <Typography sx={{ minWidth: 100 }}><Link to="/users">User List</Link></Typography>}			
+			<Typography sx={{marginLeft: '5%' }}><Link  to="/">duos</Link></Typography>
+			<Typography sx={{ minWidth: '50%',  marginLeft: '5%' }}><Link  to="/lore">league of legends</Link></Typography>
+      {user && <Typography sx={{minWidth: '25%', marginLeft: '2%' }}><Link to="/users">user list</Link></Typography>}			
+      {user && <Typography sx={{minWidth: '30%', marginLeft: '5%', background:'radial-gradient(circle, rgba(42,157,143,0.6166841736694677) 42%, rgba(63,94,251,0.5018382352941176) 96%);' }}><Link className="queueme" to="/add-form">queue me +</Link></Typography>}
 		</Box>
 		<Tooltip title="Account settings">
 			<IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
