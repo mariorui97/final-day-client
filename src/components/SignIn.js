@@ -6,10 +6,8 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {Link} from 'react-router-dom'
-
-const theme = createTheme();
+import './SignIn.css'
 
 function SignIn(props) {
 
@@ -23,9 +21,8 @@ function SignIn(props) {
   console.log(props)
   const {onSignIn} = props
 
-  return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
+  return (    
+      <Container className="signin" component="main" maxWidth="xs"  >
         <CssBaseline />
         <Box
           sx={{
@@ -47,7 +44,8 @@ function SignIn(props) {
               label="Email Address"
               name="email"
               autoComplete="email"
-              autoFocus
+              autoFocus              
+              error={props.myError ? true: false}
             />
             <TextField
               margin="normal"
@@ -65,7 +63,7 @@ function SignIn(props) {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2, backgroundColor: '#2a9d8f'}}
             >
               Sign In
             </Button>
@@ -79,7 +77,7 @@ function SignIn(props) {
           </Box>
         </Box>
       </Container>
-    </ThemeProvider>
+   
   );
 }
 

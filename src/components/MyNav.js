@@ -98,8 +98,9 @@ return (
 		<MenuItem>
 		<ListItemIcon>
             <PersonAdd fontSize="small" />
+            <Link  to="/signin"> Log In</Link>
           </ListItemIcon>
-		  <Link  to="/signin">Log In</Link>
+		  
         </MenuItem>  
 	</div>
 	  )

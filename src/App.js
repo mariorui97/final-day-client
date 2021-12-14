@@ -142,13 +142,14 @@ function App(){
       }
   
       let response = await axios.post(`${API_URL}/signin`, newUser, {withCredentials: true})
+      
       setUser(response.data)
       setUsers([response.data, ...users])
       navigate('/add-form')
     }
     catch(err){
-      //console.log(err.response)
-      setError(err.response.data)
+      console.log(err.response.data.error, 'tocato')
+      setError(err.response.data.error)
     }
   }
 

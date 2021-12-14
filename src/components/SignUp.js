@@ -7,12 +7,9 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 // import {Container, Typography, Box} from '@mui/material'
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {Link, useNavigate} from 'react-router-dom'
-import axios from 'axios'
-import { API_URL } from '../config';
 
-const theme = createTheme();
+
 
 function SignUp(props) {
 
@@ -21,7 +18,6 @@ function SignUp(props) {
   const { onSubmit } = props
 
   return (
-    <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -68,7 +64,7 @@ function SignUp(props) {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2, backgroundColor: '#2a9d8f' }}
             >
               Sign Up
             </Button>
@@ -82,7 +78,6 @@ function SignUp(props) {
           </Box>
         </Box>
       </Container>
-    </ThemeProvider>
   );
 }
 

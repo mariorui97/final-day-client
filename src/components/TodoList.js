@@ -18,7 +18,7 @@ function TodoList(props) {
 
     
     const [summonerRank, setSummonerRank] = useState([])
-    const REACT_APP_RIOT_API_KEY = process.env.RIOT_API   
+    const riotApi = process.env.REACT_APP_RIOT_API_KEY  
 
 
      useEffect(() => {
@@ -28,9 +28,9 @@ function TodoList(props) {
                 let summonerRanksArray = []
 
             for(let i=0; i<todos.length; i++){
-                let response = await axios.get(`https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${todos[i].summonerName}?api_key=${REACT_APP_RIOT_API_KEY}`)
+                let response = await axios.get(`https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${todos[i].summonerName}?api_key=${riotApi}`)
 
-                let rankResponse = await axios.get(`https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/${response.data.id}?api_key=${REACT_APP_RIOT_API_KEY}`)
+                let rankResponse = await axios.get(`https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/${response.data.id}?api_key=${riotApi}`)
                 
                 rankResponse.data.length === 1 && summonerRanksArray.push(rankResponse.data[0].tier + " " + rankResponse.data[0].rank) 
                 rankResponse.data.length === 2 && summonerRanksArray.push(rankResponse.data[1].tier + " " + rankResponse.data[1].rank) 
