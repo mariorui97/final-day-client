@@ -9,14 +9,19 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import {API_URL} from '../config'
+import {useNavigate} from 'react-router-dom'
+import './MyNav.css'
 
 function TodoList(props) {
 
     const {todos} = props
+
     
     const [summonerRank, setSummonerRank] = useState([])
-    const RIOT_API_KEY = process.env.RIOT_API
-    
+    const RIOT_API_KEY = process.env.RIOT_API   
+
+
      useEffect(() => {
         const getData = async () => {
             try{
@@ -75,7 +80,7 @@ function TodoList(props) {
                         <TableCell>
                         <a href={`https://euw.op.gg/summoner/userName=${elem.summonerName}`} rel="noreferrer" target="_blank">op.gg link</a>
                         </TableCell>
-                        <TableCell>{elem.note}</TableCell>
+                        <TableCell>{elem.note}</TableCell>                        
                     </TableRow>
                 ))}
                 </TableBody>

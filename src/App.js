@@ -171,7 +171,7 @@ function App(){
           <Route path="/" element={<TodoList todos={todos} /> } />
           <Route path='/users' element={<UserList users={users} user={user} />}/>
           <Route path="/add-form" element={<AddForm btnSubmit={handleSubmit}/> } />
-          <Route path="/todo/:todoId" element={<TodoDetail user={user} btnSubmit={handleSubmit} btnEdit={handleEdit} btnDelete={handleDelete} />} />
+          <Route path="/todo/:todoId" element={<TodoDetail users={users} user={user} btnSubmit={handleSubmit} btnEdit={handleEdit} btnDelete={handleDelete} />} />
           <Route path="/todo/:todoId/edit" element={<EditForm btnEdit={handleEdit}/>} />
           <Route path="/signin" element={<SignIn myError={myError} onSignIn={handleSignIn} />}/>
           <Route path="/signup" element={<SignUp onSubmit={handleSignUp} />}/>
