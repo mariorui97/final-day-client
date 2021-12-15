@@ -16,7 +16,7 @@ function SignUp(props) {
   const navigate = useNavigate()
 
   const { onSubmit } = props
-
+  console.log(props)
   return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -40,6 +40,7 @@ function SignUp(props) {
                 label="Username"
                 name="username"
                 autoFocus
+                error={props.myError ? true: false}
             />
             <TextField
               margin="normal"
@@ -49,6 +50,7 @@ function SignUp(props) {
               label="Email Address"
               name="email"
               autoComplete="email"
+              error={props.myError ? true: false}
             />
             <TextField
               margin="normal"
@@ -59,6 +61,8 @@ function SignUp(props) {
               type="password"
               id="password"
               autoComplete="current-password"
+              helperText={props.myError ? props.myError : '' }
+              error={props.myError ? true: false}
             />
             <Button
               type="submit"

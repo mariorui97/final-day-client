@@ -1,6 +1,6 @@
 import {Navbar, Nav} from  'react-bootstrap'
 import {Link} from  'react-router-dom'
-import {useContext, useState} from 'react'
+import {useState, useEffect, useContext} from 'react'
 import {UserContext} from '../context/app.context'
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
@@ -15,13 +15,19 @@ import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import './MyNav.css'
+import axios from 'axios'
+import {API_URL} from '../config'
 
-function MyNav(props) {
+function MyNav({todos, ...props}) {
 
 	const {user} = useContext(UserContext)
+  console.log(todos, 'props')
+  console.log(user)
 	const [anchorEl, setAnchorEl] = useState(null);
 	const open = Boolean(anchorEl);
-	
+
+	const [listed, setListed] = useState(Boolean)
+
 	const handleClick = (event) => {
 		setAnchorEl(event.currentTarget);
 	};
@@ -30,14 +36,28 @@ function MyNav(props) {
     	setAnchorEl(null);
 	};
 
+  const handleCheck = () => {
+      todos.map((elem, i)=>{
+       elem[i].userId._id === user._id && setListed(true)
+      })
+  }
+  
+  useEffect(() => {   
+    const getData = async () =>{
+      let response  = await axios.get(`${API_URL}/todos`,{withCredentials: true})
+      console.log(response.data, 'heeheudh')
+      setListed(response.data.listed)
+    } 
+    getData()
+  }, [])
+
 return (
 	<div>
 	<div className="navBar">	
-		<Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+		<Box handleCheck={handleCheck} sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
 			<Typography sx={{marginLeft: '5%' }}><Link  to="/">duos</Link></Typography>
-			<Typography sx={{ minWidth: '50%',  marginLeft: '5%' }}><Link  to="/lore">league of legends</Link></Typography>
-      {user && <Typography sx={{minWidth: '25%', marginLeft: '2%' }}><Link to="/users">user list</Link></Typography>}			
-      {user && <Typography sx={{minWidth: '30%', marginLeft: '5%', background:'radial-gradient(circle, rgba(42,157,143,0.6166841736694677) 42%, rgba(63,94,251,0.5018382352941176) 96%);' }}><Link className="queueme" to="/add-form">queue me +</Link></Typography>}
+			<Typography sx={{ minWidth: '50%',  marginLeft: '5%' }}><Link  to="/lore">league of legends</Link></Typography>		
+      {(user && listed===true) && <Typography sx={{minWidth: '30%', marginLeft: '5%', background:'radial-gradient(circle, rgba(42,157,143,0.6166841736694677) 42%, rgba(63,94,251,0.5018382352941176) 96%);' }}><Link className="queueme" to="/add-form">queue me +</Link></Typography>}
 		</Box>
 		<Tooltip title="Account settings">
 			<IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>

@@ -11,37 +11,57 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {API_URL} from '../config'
 import './TodoList.css'
+import SendIcon from '@mui/icons-material/Send';
+import Button from '@mui/material/Button';
 
 function TodoList(props) {
 
     const {todos} = props
 
-    
+    const navigate = useNavigate()
     const [summonerRank, setSummonerRank] = useState([])
-    const riotApi = process.env.REACT_APP_RIOT_API_KEY  
+    
+    const riotApi = process.env.REACT_APP_RIOT_API      
 
+    const handleChatClick = (chatUserId) => {
+        const { user } = props
+
+        if(!user){
+            navigate('/signin')
+            return; 
+        }
+        else {
+           let data = {
+               participants: [chatUserId, user._id]
+           }
+           axios.post(`${API_URL}/conversation`, data, {withCredentials: true})
+                .then((response) => {
+                    navigate(`/chat/${response.data._id}`)
+                })
+            
+        }
+    }
 
      useEffect(() => {
         const getData = async () => {
-            try{
-
-                let summonerRanksArray = []
+            let summonerRanksArray = []
+            try{                
 
             for(let i=0; i<todos.length; i++){
                 let response = await axios.get(`https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${todos[i].summonerName}?api_key=${riotApi}`)
 
                 let rankResponse = await axios.get(`https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/${response.data.id}?api_key=${riotApi}`)
-                
-                rankResponse.data.length === 1 && summonerRanksArray.push(rankResponse.data[0].tier + " " + rankResponse.data[0].rank) 
-                rankResponse.data.length === 2 && summonerRanksArray.push(rankResponse.data[1].tier + " " + rankResponse.data[1].rank) 
-                rankResponse.data.length === 3 && summonerRanksArray.push(rankResponse.data[2].tier + " " + rankResponse.data[2].rank) 
-                // setSummonerRank(...summonerRank, 'Unranked')                           
+                if(rankResponse.code === 200){
+                for (let i=0; i<rankResponse.data.length+1; i++){
+                    rankResponse.data[i].queueType === 'RANKED_SOLO_5x5' && summonerRanksArray.push(rankResponse.data[i].tier + " " + rankResponse.data[i].rank)
+                }
             }
-                console.log("newArray", summonerRanksArray)
+            }
+                console.log(summonerRanksArray, 'array')
                 setSummonerRank(summonerRanksArray)
             }
             catch(err){
-                console.log(err)
+                summonerRanksArray.push('Unranked')
             }           
         }
         
@@ -68,6 +88,7 @@ function TodoList(props) {
                     <TableCell style={{fontWeight: '600', borderBlockColor: '#5b6268', color: '#268d81' }}>Fav Champs</TableCell>
                     <TableCell style={{fontWeight: '600', borderBlockColor: '#5b6268', color: '#268d81' }}>Match History</TableCell>
                     <TableCell style={{fontWeight: '600', borderBlockColor: '#5b6268', color: '#268d81' }}>Note</TableCell>     
+                    <TableCell style={{fontWeight: '600', borderBlockColor: '#5b6268', color: '#268d81' }}>Chat</TableCell>   
                 </TableRow>
                 </TableHead>
                 <TableBody>
@@ -81,7 +102,8 @@ function TodoList(props) {
                         <TableCell style={{borderBlockColor: '#33383d'}}>
                         <a style={{fontWeight: '600', color:'#3c988e'}} href={`https://euw.op.gg/summoner/userName=${elem.summonerName}`} rel="noreferrer" target="_blank">op.gg link</a>
                         </TableCell>
-                        <TableCell style={{borderBlockColor: '#33383d'}}>{elem.note}</TableCell>                        
+                        <TableCell style={{borderBlockColor: '#33383d'}}>{elem.note}</TableCell>   
+                        <TableCell style={{borderBlockColor: '#33383d', width: '1%'}}> <Button sx={{backgroundColor:'#268d81', marginLeft:'-5px'}} onClick={() => { handleChatClick(elem.userId._id) }} variant="contained" endIcon={<SendIcon sx={{marginLeft:'-10px', color:'#33383d'}} />}></Button></TableCell>                     
                     </TableRow>
                 ))}
                 </TableBody>

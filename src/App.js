@@ -24,6 +24,7 @@ function App(){
   const {user, setUser} = useContext(UserContext)
   const [myError, setError] = useState(null)
   
+
   // setting it to 'true' so that we can show a loading screen and make the user wait until this API finishes
   const [fetchingUser, setFetchingUser] = useState(true)
   
@@ -50,6 +51,7 @@ function App(){
 
             let responsee = await axios.get(`${API_URL}/users`, {withCredentials: true})
             setUsers(responsee.data)
+            
           }
           catch(err){
             // the request will fail if the user is not logged in 
@@ -72,12 +74,14 @@ function App(){
         summonerName: event.target.summonerName.value,
         favChamps: event.target.favChamps.value,
         position: event.target.position.value,
-        note: event.target.note.value
+        note: event.target.note.value,
+        listed: true
       }
       
       // Pass an object as a 2nd param in POST requests
       let response = await axios.post(`${API_URL}/create`, newTodo, {withCredentials: true})
       setTodos([response.data, ...todos])
+
       console.log(newTodo)
       
   }
@@ -122,6 +126,7 @@ function App(){
 
   const handleSignUp = async (event) => {
     event.preventDefault()
+    try{
     let newUser = {
       username: event.target.username.value,
       email: event.target.email.value,
@@ -131,6 +136,11 @@ function App(){
     await axios.post(`${API_URL}/signup`, newUser, {withCredentials: true}) 
      
     navigate('/signin')
+  }
+  catch(err){
+    console.log(err.response.data.error)
+    setError(err.response.data.error)
+  }
   } 
 
   const handleSignIn = async (event) => {
@@ -167,15 +177,15 @@ function App(){
 	return (
 		<div>
       <Chatbot />      
-      <MyNav onLogout={handleLogout}/>  
+      <MyNav todos={todos} user={user} onLogout={handleLogout} />  
       <Routes>
-          <Route path="/" element={<TodoList todos={todos} /> } />
+          <Route path="/" element={<TodoList todos={todos} user={user}/> } />
           <Route path='/users' element={<UserList users={users} user={user} />}/>
           <Route path="/add-form" element={<AddForm btnSubmit={handleSubmit}/> } />
           <Route path="/todo/:todoId" element={<TodoDetail users={users} user={user} btnSubmit={handleSubmit} btnEdit={handleEdit} btnDelete={handleDelete} />} />
           <Route path="/todo/:todoId/edit" element={<EditForm btnEdit={handleEdit}/>} />
           <Route path="/signin" element={<SignIn myError={myError} onSignIn={handleSignIn} />}/>
-          <Route path="/signup" element={<SignUp onSubmit={handleSignUp} />}/>
+          <Route path="/signup" element={<SignUp myError={myError} onSubmit={handleSignUp} />}/>
           <Route path="/chat/:chatId"  element={ <ChatPage user={user} />}/>
           <Route path="/lore"  element={<Lore/>}/>
       </Routes>

@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { createRef, useState, useEffect } from 'react'
-import {API_URL} from '../config'
+import {API_URL, SOCKET_URL} from '../config'
 import './ChatPage.css'
 import io from "socket.io-client";
 import { Navigate, useParams } from 'react-router-dom';
@@ -22,10 +22,11 @@ function ChatPage(props) {
 
     useEffect(() => {
         //setup your socket connection with the server
-        socket = io(`${API_URL}`);
+        socket = io(`${SOCKET_URL}`);
 
         const getMessages = async () => {
             let response  = await axios.get(`${API_URL}/messages/${chatId}`)
+            console.log(response.data, 'logged')
             setLoading(false)
             setMessageList(response.data)
 
