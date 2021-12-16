@@ -53,7 +53,6 @@ function AddForm(props){
                         <FormControlLabel value="mid" control={<Radio />} label="Mid Laner" />
                         <FormControlLabel value="adc" control={<Radio />} label="AD Carry" />
                         <FormControlLabel value="supp" control={<Radio />} label="Support" />
-                        <FormControlLabel value="fill" control={<Radio />} label="Fill" />
                     </RadioGroup>
             </FormControl>
             <br/>               

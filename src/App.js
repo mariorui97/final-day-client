@@ -1,7 +1,6 @@
 import { Routes, Route } from  "react-router-dom";
 import MyNav from "./components/MyNav";
 import TodoList from "./components/TodoList";
-import TodoDetail from "./components/TodoDetail";
 import {useState, useEffect, useContext} from 'react'
 import axios from "axios";
 import AddForm from "./components/AddForm";
@@ -19,12 +18,12 @@ import Lore from "./components/Lore";
 function App(){
 
   const [todos, setTodos] = useState([])
-  // this state stores the logged in user info
+  // this state stores the logged in user info  
   const [users, setUsers] = useState([])
   const {user, setUser} = useContext(UserContext)
   const [myError, setError] = useState(null)
   
-
+  console.log(todos)
   // setting it to 'true' so that we can show a loading screen and make the user wait until this API finishes
   const [fetchingUser, setFetchingUser] = useState(true)
   
@@ -34,7 +33,7 @@ function App(){
   // This runs only --ONCE-- when the component is mounted
   useEffect(() => {
 
-      const getData = async () => {          
+      const getData = async () => {   
 
 
 
@@ -67,38 +66,48 @@ function App(){
     navigate('/')
   }, [todos, user])
 
+  function refreshPage() {
+    window.location.reload(true);
+  }
+
   const handleSubmit = async (event) => {
       event.preventDefault()
-
+      
       let newTodo = {
         summonerName: event.target.summonerName.value,
         favChamps: event.target.favChamps.value,
         position: event.target.position.value,
-        note: event.target.note.value,
-        listed: true
-      }
-      
+        note: event.target.note.value
+      }      
+
       // Pass an object as a 2nd param in POST requests
       let response = await axios.post(`${API_URL}/create`, newTodo, {withCredentials: true})
-      setTodos([response.data, ...todos])
-
-      console.log(newTodo)
-      
+      setTodos([response.data, ...todos])     
+      refreshPage()
   }
-
+  
   const handleEdit = async (event, id) => {
       event.preventDefault()
       let editedTodo = {
-        name: event.target.name.value,
-        description: event.target.description.value,
-        completed: false
+        summonerName: event.target.summonerName.value,
+        favChamps: event.target.favChamps.value,
+        position: event.target.position.value,
+        note: event.target.note.value
       }
+      
+      todos.map((elem)=>{
+        if(elem._id === user._id){
+          id = elem._id
+        }
+      })
+
+      
+      // 
       // Pass an object as a 2nd param in POST requests
       let response = await axios.patch(`${API_URL}/todos/${id}`, editedTodo, {withCredentials: true})
       // Update our state 'todos' with the edited todo so that the user see the upadted info without refrshing the page
 
-      // We have the updated todo here
-     
+      // We have the updated todo here     
 
       let updatedTodos = todos.map((elem) => {
           if (elem._id == id) {
@@ -112,6 +121,7 @@ function App(){
       
   }
 
+  
   const handleDelete = async (id) => {
     // make a request to the server to delete it from the database
     await axios.delete(`${API_URL}/todos/${id}`)
@@ -137,11 +147,12 @@ function App(){
      
     navigate('/signin')
   }
-  catch(err){
-    console.log(err.response.data.error)
+  catch(err){    
     setError(err.response.data.error)
   }
   } 
+
+
 
   const handleSignIn = async (event) => {
     event.preventDefault()
@@ -155,10 +166,9 @@ function App(){
       
       setUser(response.data)
       setUsers([response.data, ...users])
-      navigate('/add-form')
+      navigate('/')
     }
-    catch(err){
-      console.log(err.response.data.error, 'tocato')
+    catch(err){      
       setError(err.response.data.error)
     }
   }
@@ -166,6 +176,8 @@ function App(){
   const handleLogout = async () => {
       await axios.post(`${API_URL}/logout`, {}, {withCredentials: true})
       setUser(null)
+      navigate('/')
+      
   }
 
   // Wait for the '/api/user' request to finish so that we know if the user is loggedin or not
@@ -176,13 +188,13 @@ function App(){
 
 	return (
 		<div>
+    {console.log('userapp', user)}
       <Chatbot />      
       <MyNav todos={todos} user={user} onLogout={handleLogout} />  
       <Routes>
           <Route path="/" element={<TodoList todos={todos} user={user}/> } />
           <Route path='/users' element={<UserList users={users} user={user} />}/>
           <Route path="/add-form" element={<AddForm btnSubmit={handleSubmit}/> } />
-          <Route path="/todo/:todoId" element={<TodoDetail users={users} user={user} btnSubmit={handleSubmit} btnEdit={handleEdit} btnDelete={handleDelete} />} />
           <Route path="/todo/:todoId/edit" element={<EditForm btnEdit={handleEdit}/>} />
           <Route path="/signin" element={<SignIn myError={myError} onSignIn={handleSignIn} />}/>
           <Route path="/signup" element={<SignUp myError={myError} onSubmit={handleSignUp} />}/>

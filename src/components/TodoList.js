@@ -49,19 +49,21 @@ function TodoList(props) {
 
             for(let i=0; i<todos.length; i++){
                 let response = await axios.get(`https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${todos[i].summonerName}?api_key=${riotApi}`)
-
-                let rankResponse = await axios.get(`https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/${response.data.id}?api_key=${riotApi}`)
-                if(rankResponse.code === 200){
-                for (let i=0; i<rankResponse.data.length+1; i++){
+                console.log(response.data)
+                let rankResponse = null;
+                !response.data ? summonerRanksArray.push('Unranked') : (rankResponse = await axios.get(`https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/${response.data.id}?api_key=${riotApi}`))
+                console.log(rankResponse.data)
+                for (let i=0; i<rankResponse.data.length; i++){
                     rankResponse.data[i].queueType === 'RANKED_SOLO_5x5' && summonerRanksArray.push(rankResponse.data[i].tier + " " + rankResponse.data[i].rank)
                 }
-            }
+      
             }
                 console.log(summonerRanksArray, 'array')
                 setSummonerRank(summonerRanksArray)
             }
             catch(err){
                 summonerRanksArray.push('Unranked')
+                console.log(err, 'err')
             }           
         }
         
@@ -96,7 +98,7 @@ function TodoList(props) {
                 {todos.map((elem, i) => (
                     <TableRow key={elem.summonerName} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                         <TableCell style={{borderBlockColor: '#33383d'}}>{elem.summonerName}</TableCell>
-                        <TableCell style={{borderBlockColor: '#33383d'}}>{elem.position}</TableCell>
+                        {elem.position === 'top' ? <TableCell style={{borderBlockColor: '#33383d'}}>{<img  src='/icon/Position_Plat-Top.png' alt='top'/>}</TableCell> : elem.position === 'mid' ? <TableCell style={{borderBlockColor: '#33383d'}}>{<img  src='/icon/Position_Plat-Mid.png' alt='mid'/>}</TableCell> : elem.position === 'jungle' ? <TableCell style={{borderBlockColor: '#33383d'}}>{<img  src='/icon/Position_Plat-Jungle.png' alt='jungle'/>}</TableCell> : elem.position === 'adc' ? <TableCell style={{borderBlockColor: '#33383d'}}>{<img  src='/icon/Position_Plat-Bot.png' alt='bot'/>}</TableCell> : <TableCell style={{borderBlockColor: '#33383d'}}>{<img  src='/icon/Position_Plat-Support.png' alt='supp'/>}</TableCell>}
                         {summonerRank.length ? <TableCell style={{borderBlockColor: '#33383d'}}>{summonerRank[i]}</TableCell> : <TableCell style={{borderBlockColor: '#33383d'}}><Spinner animation="grow" size="small" variant="dark" /></TableCell>}
                         <TableCell style={{borderBlockColor: '#33383d'}}>not deffined yet</TableCell>
                         <TableCell style={{borderBlockColor: '#33383d'}}>

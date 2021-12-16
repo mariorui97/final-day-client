@@ -24,8 +24,8 @@ function EditForm(props) {
     }
 
     const {btnEdit} = props
-    return (
-        <div>
+    return (        
+        <div>        
             <h3>Edit Component</h3>
 
             <form onSubmit={(event) => { btnEdit(event, todoDetail._id)  }} >

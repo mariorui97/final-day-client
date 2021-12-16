@@ -21,12 +21,11 @@ import {API_URL} from '../config'
 function MyNav({todos, ...props}) {
 
 	const {user} = useContext(UserContext)
-  console.log(todos, 'props')
-  console.log(user)
+     
 	const [anchorEl, setAnchorEl] = useState(null);
 	const open = Boolean(anchorEl);
-
-	const [listed, setListed] = useState(Boolean)
+  const [userId, setUserId] = useState(null)
+ 	const [listed, setListed] = useState(false)
 
 	const handleClick = (event) => {
 		setAnchorEl(event.currentTarget);
@@ -36,28 +35,40 @@ function MyNav({todos, ...props}) {
     	setAnchorEl(null);
 	};
 
-  const handleCheck = () => {
-      todos.map((elem, i)=>{
-       elem[i].userId._id === user._id && setListed(true)
-      })
-  }
+
   
-  useEffect(() => {   
-    const getData = async () =>{
-      let response  = await axios.get(`${API_URL}/todos`,{withCredentials: true})
-      console.log(response.data, 'heeheudh')
-      setListed(response.data.listed)
-    } 
-    getData()
+  useEffect(() => {
+    const handleId = async () => {
+      let userResponse = await axios.get(`${API_URL}/user`,{withCredentials: true})
+      setUserId(userResponse.data._id)
+    }
+    handleId()
   }, [])
+  
+ 
+ 
+  useEffect(() => { 
+    const handleCheck = async () => { 
+      try{    
+          for(let i=0; i<todos.length; i++){
+            await (todos[i].userId[0]._id === userId) && setListed(true) 
+          }
+        }      
+      catch(err){
+        console.log(err, 'error')
+      }        
+    }   
+    handleCheck()
+  }, [userId])
 
 return (
-	<div>
-	<div className="navBar">	
-		<Box handleCheck={handleCheck} sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+	<div>  
+	<div className="navBar">
+  {console.log(userId, 'id')}	
+		<Box  sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>        
 			<Typography sx={{marginLeft: '5%' }}><Link  to="/">duos</Link></Typography>
-			<Typography sx={{ minWidth: '50%',  marginLeft: '5%' }}><Link  to="/lore">league of legends</Link></Typography>		
-      {(user && listed===true) && <Typography sx={{minWidth: '30%', marginLeft: '5%', background:'radial-gradient(circle, rgba(42,157,143,0.6166841736694677) 42%, rgba(63,94,251,0.5018382352941176) 96%);' }}><Link className="queueme" to="/add-form">queue me +</Link></Typography>}
+			<Typography sx={{ minWidth: '55%',  marginLeft: '5%' }}><Link  to="/lore" >league of legends</Link></Typography>		
+      {(listed == false && user) ? <Typography sx={{minWidth: '35%', marginLeft: '5%', background:'radial-gradient(circle, rgba(42,157,143,0.6166841736694677) 42%, rgba(63,94,251,0.5018382352941176) 96%);' }}><Link className="queueme" to="/add-form">queue me +</Link></Typography> : null}
 		</Box>
 		<Tooltip title="Account settings">
 			<IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
@@ -105,7 +116,7 @@ return (
 		<ListItemIcon>
             <Settings fontSize="small" />
           </ListItemIcon>
-		  <Link to="/add-form">Edit Profile</Link>
+		  <Link to="/todo/:todoId/edit">Edit Profile</Link>
         </MenuItem>
         <Divider />        
         <MenuItem onClick={props.onLogout}>
