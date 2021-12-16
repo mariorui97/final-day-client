@@ -19,13 +19,14 @@ import axios from 'axios'
 import {API_URL} from '../config'
 
 function MyNav({todos, ...props}) {
-
+  
 	const {user} = useContext(UserContext)
      
 	const [anchorEl, setAnchorEl] = useState(null);
 	const open = Boolean(anchorEl);
   const [userId, setUserId] = useState(null)
  	const [listed, setListed] = useState(false)
+   const [todoId, setTodoId] = useState(null)
 
 	const handleClick = (event) => {
 		setAnchorEl(event.currentTarget);
@@ -42,29 +43,36 @@ function MyNav({todos, ...props}) {
       let userResponse = await axios.get(`${API_URL}/user`,{withCredentials: true})
       setUserId(userResponse.data._id)
     }
-    handleId()
+    /*let filteredTodo = todos.filter((elem) => {
+      return elem.userId[0]._id == userId
+    })
+  console.log(filteredTodo, "this is the todo id")
+  setTodoId(filteredTodo[0]._id)*/
+  handleId()
   }, [])
   
- 
+  userId === undefined && window.location.reload(true);
  
   useEffect(() => { 
     const handleCheck = async () => { 
-      try{    
+ 
           for(let i=0; i<todos.length; i++){
-            await (todos[i].userId[0]._id === userId) && setListed(true) 
+            if (todos[i].userId[0]._id === userId) {
+              setListed(true) 
+              setTodoId(todos[i]._id)
           }
         }      
-      catch(err){
-        console.log(err, 'error')
-      }        
+
     }   
+    
     handleCheck()
   }, [userId])
+
+console.log(todoId, "is this gonna be the good one")
 
 return (
 	<div>  
 	<div className="navBar">
-  {console.log(userId, 'id')}	
 		<Box  sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>        
 			<Typography sx={{marginLeft: '5%' }}><Link  to="/">duos</Link></Typography>
 			<Typography sx={{ minWidth: '55%',  marginLeft: '5%' }}><Link  to="/lore" >league of legends</Link></Typography>		
@@ -116,7 +124,7 @@ return (
 		<ListItemIcon>
             <Settings fontSize="small" />
           </ListItemIcon>
-		  <Link to="/todo/:todoId/edit">Edit Profile</Link>
+		  <Link to={"/todo/" + todoId +"/edit"}>Edit Profile</Link>
         </MenuItem>
         <Divider />        
         <MenuItem onClick={props.onLogout}>

@@ -23,7 +23,7 @@ function App(){
   const {user, setUser} = useContext(UserContext)
   const [myError, setError] = useState(null)
   
-  console.log(todos)
+  const [id, setId] = useState(null)
   // setting it to 'true' so that we can show a loading screen and make the user wait until this API finishes
   const [fetchingUser, setFetchingUser] = useState(true)
   
@@ -39,7 +39,6 @@ function App(){
 
           let response  = await axios.get(`${API_URL}/todos`,{withCredentials: true})
           setTodos(response.data)
-
 
           // -----------------------------------------------
           // we make the user requst here to know if the user is logged in or not
@@ -86,22 +85,23 @@ function App(){
       refreshPage()
   }
   
+  const handleClickEdit = () => {
+    
+     todos.map((elem, i) => {
+      return elem.userId[0]._id === user._id ? setId(elem._id) : null      
+    })      
+    }
+
   const handleEdit = async (event, id) => {
       event.preventDefault()
+      
       let editedTodo = {
         summonerName: event.target.summonerName.value,
         favChamps: event.target.favChamps.value,
         position: event.target.position.value,
         note: event.target.note.value
-      }
-      
-      todos.map((elem)=>{
-        if(elem._id === user._id){
-          id = elem._id
-        }
-      })
-
-      
+      }     
+  console.log(editedTodo, "this is the edited Todo")
       // 
       // Pass an object as a 2nd param in POST requests
       let response = await axios.patch(`${API_URL}/todos/${id}`, editedTodo, {withCredentials: true})
@@ -111,14 +111,16 @@ function App(){
 
       let updatedTodos = todos.map((elem) => {
           if (elem._id == id) {
-              elem.name = response.data.name
-              elem.description = response.data.description
+              elem.summonerName = response.data.name
+              elem.favChamps = response.data.favChamps
+              elem.position = response.data.position
+              elem.note = response.data.note
           }
           return elem
       })
 
       setTodos(updatedTodos)
-      
+     // refreshPage()
   }
 
   
@@ -185,17 +187,20 @@ function App(){
     return <p>Loading user info. . . </p>
   }
 
+  if (!todos.length) {
+    return <h1>Todos fetching</h1>
+  }
 
+console.log(todos, "should be the todos")
 	return (
-		<div>
-    {console.log('userapp', user)}
+		<div>    
       <Chatbot />      
-      <MyNav todos={todos} user={user} onLogout={handleLogout} />  
+      <MyNav todos={todos} user={user} onLogout={handleLogout} id={id} handleClickEdit={handleClickEdit}/>  
       <Routes>
           <Route path="/" element={<TodoList todos={todos} user={user}/> } />
           <Route path='/users' element={<UserList users={users} user={user} />}/>
           <Route path="/add-form" element={<AddForm btnSubmit={handleSubmit}/> } />
-          <Route path="/todo/:todoId/edit" element={<EditForm btnEdit={handleEdit}/>} />
+          <Route path="/todo/:todoId/edit" element={<EditForm  btnEdit={handleEdit}/>} />
           <Route path="/signin" element={<SignIn myError={myError} onSignIn={handleSignIn} />}/>
           <Route path="/signup" element={<SignUp myError={myError} onSubmit={handleSignUp} />}/>
           <Route path="/chat/:chatId"  element={ <ChatPage user={user} />}/>

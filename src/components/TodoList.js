@@ -20,7 +20,8 @@ function TodoList(props) {
 
     const navigate = useNavigate()
     const [summonerRank, setSummonerRank] = useState([])
-    
+    const [summonerTier, setSummonerTier] = useState([])
+
     const riotApi = process.env.REACT_APP_RIOT_API      
 
     const handleChatClick = (chatUserId) => {
@@ -45,6 +46,8 @@ function TodoList(props) {
      useEffect(() => {
         const getData = async () => {
             let summonerRanksArray = []
+            let summonerTiersArray = []
+
             try{                
 
             for(let i=0; i<todos.length; i++){
@@ -55,11 +58,12 @@ function TodoList(props) {
                 console.log(rankResponse.data)
                 for (let i=0; i<rankResponse.data.length; i++){
                     rankResponse.data[i].queueType === 'RANKED_SOLO_5x5' && summonerRanksArray.push(rankResponse.data[i].tier + " " + rankResponse.data[i].rank)
-                }
-      
+                    rankResponse.data[i].queueType === 'RANKED_SOLO_5x5' && summonerTiersArray.push(rankResponse.data[i].rank)
+                }      
             }
                 console.log(summonerRanksArray, 'array')
                 setSummonerRank(summonerRanksArray)
+                setSummonerTier(summonerTiersArray)
             }
             catch(err){
                 summonerRanksArray.push('Unranked')
@@ -99,10 +103,10 @@ function TodoList(props) {
                     <TableRow key={elem.summonerName} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                         <TableCell style={{borderBlockColor: '#33383d'}}>{elem.summonerName}</TableCell>
                         {elem.position === 'top' ? <TableCell style={{borderBlockColor: '#33383d'}}>{<img  src='/icon/Position_Plat-Top.png' alt='top'/>}</TableCell> : elem.position === 'mid' ? <TableCell style={{borderBlockColor: '#33383d'}}>{<img  src='/icon/Position_Plat-Mid.png' alt='mid'/>}</TableCell> : elem.position === 'jungle' ? <TableCell style={{borderBlockColor: '#33383d'}}>{<img  src='/icon/Position_Plat-Jungle.png' alt='jungle'/>}</TableCell> : elem.position === 'adc' ? <TableCell style={{borderBlockColor: '#33383d'}}>{<img  src='/icon/Position_Plat-Bot.png' alt='bot'/>}</TableCell> : <TableCell style={{borderBlockColor: '#33383d'}}>{<img  src='/icon/Position_Plat-Support.png' alt='supp'/>}</TableCell>}
-                        {summonerRank.length ? <TableCell style={{borderBlockColor: '#33383d'}}>{summonerRank[i]}</TableCell> : <TableCell style={{borderBlockColor: '#33383d'}}><Spinner animation="grow" size="small" variant="dark" /></TableCell>}
+                        {summonerRank.length ? <TableCell style={{borderBlockColor: '#33383d'}}>{summonerRank[i] == ('PLATINUM IV' || 'PLATINUM III' || 'PLATINUM II' || 'PLATINUM I') ? (<><img src={"/icon/Emblem_Platinum.png"}/> <span>{summonerTier[i]}</span></>) : summonerRank[i]}</TableCell> : <TableCell style={{borderBlockColor: '#33383d'}}><Spinner animation="grow" size="small" variant="dark" /></TableCell>}
                         <TableCell style={{borderBlockColor: '#33383d'}}>not deffined yet</TableCell>
                         <TableCell style={{borderBlockColor: '#33383d'}}>
-                        <a style={{fontWeight: '600', color:'#3c988e'}} href={`https://euw.op.gg/summoner/userName=${elem.summonerName}`} rel="noreferrer" target="_blank">op.gg link</a>
+                        <a style={{fontWeight: '600', color:'#3c988e'}} href={`https://euw.op.gg/summoner/userName=${elem.summonerName}`} rel="noreferrer" target="_blank">op.gg link</a>       
                         </TableCell>
                         <TableCell style={{borderBlockColor: '#33383d'}}>{elem.note}</TableCell>   
                         <TableCell style={{borderBlockColor: '#33383d', width: '1%'}}> <Button sx={{backgroundColor:'#268d81', marginLeft:'-5px'}} onClick={() => { handleChatClick(elem.userId._id) }} variant="contained" endIcon={<SendIcon sx={{marginLeft:'-10px', color:'#33383d'}} />}></Button></TableCell>                     
