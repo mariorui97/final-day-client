@@ -1,0 +1,16 @@
+.edit-form{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: space-around;
+    min-width: 100vh;
+    min-height: 100vh;
+}
+
+.css-vqmohf-MuiButtonBase-root-MuiRadio-root.Mui-checked {
+    color: #268d81 !important;
+}
+
+

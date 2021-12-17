@@ -68,7 +68,6 @@ function MyNav({todos, ...props}) {
     handleCheck()
   }, [userId])
 
-console.log(todoId, "is this gonna be the good one")
 
 return (
 	<div>  
@@ -76,7 +75,7 @@ return (
 		<Box  sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>        
 			<Typography sx={{marginLeft: '5%' }}><Link  to="/">duos</Link></Typography>
 			<Typography sx={{ minWidth: '55%',  marginLeft: '5%' }}><Link  to="/lore" >league of legends</Link></Typography>		
-      {(listed == false && user) ? <Typography sx={{minWidth: '35%', marginLeft: '5%', background:'radial-gradient(circle, rgba(42,157,143,0.6166841736694677) 42%, rgba(63,94,251,0.5018382352941176) 96%);' }}><Link className="queueme" to="/add-form">queue me +</Link></Typography> : null}
+      {(listed == false && user) ? <Typography sx={{minWidth: '35%', marginLeft: '5%', background:'radial-gradient(circle, rgba(42,157,143,0.6166841736694677) 42%, rgba(63,94,251,0.5018382352941176) 96%);' }}><Link className="queueme" to="/add-form">queue me up</Link></Typography> : null}
 		</Box>
 		<Tooltip title="Account settings">
 			<IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>

@@ -52,16 +52,13 @@ function TodoList(props) {
 
             for(let i=0; i<todos.length; i++){
                 let response = await axios.get(`https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/${todos[i].summonerName}?api_key=${riotApi}`)
-                console.log(response.data)
                 let rankResponse = null;
                 !response.data ? summonerRanksArray.push('Unranked') : (rankResponse = await axios.get(`https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/${response.data.id}?api_key=${riotApi}`))
-                console.log(rankResponse.data)
                 for (let i=0; i<rankResponse.data.length; i++){
                     rankResponse.data[i].queueType === 'RANKED_SOLO_5x5' && summonerRanksArray.push(rankResponse.data[i].tier + " " + rankResponse.data[i].rank)
                     rankResponse.data[i].queueType === 'RANKED_SOLO_5x5' && summonerTiersArray.push(rankResponse.data[i].rank)
                 }      
             }
-                console.log(summonerRanksArray, 'array')
                 setSummonerRank(summonerRanksArray)
                 setSummonerTier(summonerTiersArray)
             }
@@ -91,7 +88,7 @@ function TodoList(props) {
                     <TableCell style={{fontWeight: '600', borderBlockColor: '#5b6268', color: '#268d81' }}>Summoner Name</TableCell>
                     <TableCell style={{fontWeight: '600', borderBlockColor: '#5b6268', color: '#268d81' }}>Role</TableCell>
                     <TableCell style={{fontWeight: '600', borderBlockColor: '#5b6268', color: '#268d81' }}> Rank</TableCell>
-                    <TableCell style={{fontWeight: '600', borderBlockColor: '#5b6268', color: '#268d81' }}>Fav Champs</TableCell>
+                    <TableCell style={{fontWeight: '600', borderBlockColor: '#5b6268', color: '#268d81' }}>Fav Champ</TableCell>
                     <TableCell style={{fontWeight: '600', borderBlockColor: '#5b6268', color: '#268d81' }}>Match History</TableCell>
                     <TableCell style={{fontWeight: '600', borderBlockColor: '#5b6268', color: '#268d81' }}>Note</TableCell>     
                     <TableCell style={{fontWeight: '600', borderBlockColor: '#5b6268', color: '#268d81' }}>Chat</TableCell>   
@@ -159,7 +156,7 @@ function TodoList(props) {
                                                                                                                                                                                                                                                 (summonerRank[i] == ('CHALLENGER I')) ? 
                                                                                                                                                                                                                                                     (<TableCell style={{borderBlockColor: '#33383d'}}>{(<><img src={"/icon/Emblem_Challenger.png"}/></>)} </TableCell>) :                            
                                     <TableCell style={{borderBlockColor: '#33383d'}}><Spinner animation="grow" size="small" variant="dark" /></TableCell>}
-                        <TableCell style={{borderBlockColor: '#33383d'}}>not deffined yet</TableCell>
+                        <TableCell style={{borderBlockColor: '#33383d'}}><><img style={{maxWidth: '8%', borderRadius: '50%', marginRight: '2%'}} src={`./imgs/${elem.favChamps}.png`}/> {elem.favChamps}</></TableCell>
                         <TableCell style={{borderBlockColor: '#33383d'}}>
                         <a style={{fontWeight: '600', color:'#3c988e'}} href={`https://euw.op.gg/summoner/userName=${elem.summonerName}`} rel="noreferrer" target="_blank">op.gg link</a>       
                         </TableCell>

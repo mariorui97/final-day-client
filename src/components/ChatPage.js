@@ -78,7 +78,7 @@ function ChatPage(props) {
         return <Navigate to={'/signin'}  />
     }
     return (
-        <div>
+        <div className="chat">
             <h3>You're in the Chat Page </h3>
             <div className="chatContainer">
                 <div className="messages">

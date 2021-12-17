@@ -15,14 +15,16 @@ import ChatPage from "./components/ChatPage";
 import UserList from "./components/UserList";
 import Lore from "./components/Lore";
 
-function App(){
 
+
+function App(){
+  
   const [todos, setTodos] = useState([])
   // this state stores the logged in user info  
   const [users, setUsers] = useState([])
   const {user, setUser} = useContext(UserContext)
   const [myError, setError] = useState(null)
-  
+
   const [id, setId] = useState(null)
   // setting it to 'true' so that we can show a loading screen and make the user wait until this API finishes
   const [fetchingUser, setFetchingUser] = useState(true)
@@ -101,7 +103,7 @@ function App(){
         position: event.target.position.value,
         note: event.target.note.value
       }     
-  console.log(editedTodo, "this is the edited Todo")
+
       // 
       // Pass an object as a 2nd param in POST requests
       let response = await axios.patch(`${API_URL}/todos/${id}`, editedTodo, {withCredentials: true})
@@ -120,7 +122,7 @@ function App(){
       })
 
       setTodos(updatedTodos)
-     // refreshPage()
+     refreshPage()
   }
 
   
@@ -169,6 +171,7 @@ function App(){
       setUser(response.data)
       setUsers([response.data, ...users])
       navigate('/')
+      refreshPage()
     }
     catch(err){      
       setError(err.response.data.error)
@@ -179,7 +182,7 @@ function App(){
       await axios.post(`${API_URL}/logout`, {}, {withCredentials: true})
       setUser(null)
       navigate('/')
-      
+      refreshPage()
   }
 
   // Wait for the '/api/user' request to finish so that we know if the user is loggedin or not
@@ -191,7 +194,6 @@ function App(){
     return <h1>Todos fetching</h1>
   }
 
-console.log(todos, "should be the todos")
 	return (
 		<div>    
       <Chatbot />      

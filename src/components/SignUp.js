@@ -16,7 +16,6 @@ function SignUp(props) {
   const navigate = useNavigate()
 
   const { onSubmit } = props
-  console.log(props)
   return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />

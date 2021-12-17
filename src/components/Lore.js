@@ -8,7 +8,8 @@ function Lore() {
     return (        
         <div className="div" >   
         <div className="div description">
-            <img src="https://www.leagueoflegends.com/static/logo-1200-589b3ef693ce8a750fa4b4704f1e61f2.png" alt=""/>
+        <img src="https://www.leagueoflegends.com/static/logo-1200-589b3ef693ce8a750fa4b4704f1e61f2.png" alt=""/>
+            
             <h4>League of Legends is a team-based strategy game where two teams of five powerful champions face off to destroy the other's base. Choose from over 140 champions to make epic plays, secure kills, and take down towers as you battle your way to victory.</h4>
             <a className="div description" href='https://www.leagueoflegends.com/en-us/'><Button variant="contained"> Take a better look at official Riot's website</Button></a>
         </div>
